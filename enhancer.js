@@ -80,6 +80,9 @@ function enhanceResponse(response) {
         response.setStatusCode(statusCode);
         response.setHeader("Location",location);
     }
+    response.halt = function(){
+        response.halted = true;
+    }
 }
 
 class cookie {
