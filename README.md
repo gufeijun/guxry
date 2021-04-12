@@ -533,4 +533,22 @@ engine.get("/",function(req,res){
     res.redirect("http://www.baidu.com",302);
 })
 ```
+### 2.7 对于异步请求
+
+框架会子哦对那个帮助调用res.end()，但这样对于异步请求并不适用，可以使用res.halt()来取消框架的自动调用
+
+```js
+engine.post("/login",function(req,res){
+    res.halt();
+    let form = new formiddable.IncomingForm();
+    form.parse(req,function(err,fields,files){
+        
+        console.log(fields);
+        res.sendJson({
+            status:0,
+        })
+        res.end();
+    })
+})
+```
 
