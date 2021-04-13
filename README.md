@@ -191,6 +191,7 @@ engine.run("127.0.0.1:8080")
 engine.get("/user/:id/photo",function (req,res,ctrl){
   	//通过req.param("id")就可以查看用户的id
     console.log(req.param("id"));
+    res.end();
 })
 //浏览器访问/user/1/photo，则程序会输出1。
 ```
@@ -200,6 +201,7 @@ guxry还支持另一种匹配即全配符`*`匹配，`guxry`的文件服务器�
 ```js
 engine.get("/video/*",function (req){
     console.log(req.param("*"))
+    res.end();
 })
 ```
 
@@ -318,6 +320,7 @@ engine.get("/",A,B,C,D)
 function A(req,res,ctrl){
     ctrl.next();
     console.log("A")
+    res.end();
 }
 
 function B(){
@@ -406,6 +409,7 @@ engine.get("/",function (req,res){
     //设置cookie
     //function (name, value, path, domain, maxAge, httpOnly = true)
     res.setCookie("age","10","/","127.0.0.1",1000);
+    res.end();
 })
 
 engine.run("127.0.0.1")
@@ -426,6 +430,7 @@ engine.get("/",function (req,res){
     //如果拿不到则返回undefined
     let age=req.query("age")
     console.log(age)
+    res.end();
 })
 ```
 
@@ -517,6 +522,7 @@ engine.get("/",function(req,res){
 engine.get("/",function(req,res){
     //请自行了解cookie规范
     res.setCookie("uuid","dfskhgflkklvas","/","127.0.0.1",200)
+    res.end();
 }
 ```
 
@@ -533,22 +539,3 @@ engine.get("/",function(req,res){
     res.redirect("http://www.baidu.com",302);
 })
 ```
-### 2.7 对于异步请求
-
-框架会子哦对那个帮助调用res.end()，但这样对于异步请求并不适用，可以使用res.halt()来取消框架的自动调用
-
-```js
-engine.post("/login",function(req,res){
-    res.halt();
-    let form = new formiddable.IncomingForm();
-    form.parse(req,function(err,fields,files){
-        
-        console.log(fields);
-        res.sendJson({
-            status:0,
-        })
-        res.end();
-    })
-})
-```
-

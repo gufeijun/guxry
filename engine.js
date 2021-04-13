@@ -175,7 +175,6 @@ class engine {
 
             let ctrl = controller.New(handlers, request, response);
             ctrl.next();
-            if(!response.halted) response.end();
         };
         server.addListener("request", callback);
         return server;
